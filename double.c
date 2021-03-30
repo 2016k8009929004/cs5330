@@ -22,7 +22,7 @@ typedef unsigned __int128 uint128_t
  * @return  
  *    Hash value of key x
  */
-uint64_t * SimpleTab32(uint32_t x, uint32_t H[4][256]) {
+uint128_t SimpleTab32(uint32_t x, uint128_t H[4][256]) {
   
 }
 
@@ -36,7 +36,7 @@ uint64_t * SimpleTab32(uint32_t x, uint32_t H[4][256]) {
  * @return  
  *    
  */
-uint32_t DoubleTab32(uint32_t x, uint32_t H[4][256]) {
+uint32_t DoubleTab32(uint32_t x, uint128_t H[4][256]) {
   /* Simple tabulation function with 6 times more output than input characters */
 
   /* Simple tabulation function */
