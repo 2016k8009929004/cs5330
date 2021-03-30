@@ -36,7 +36,7 @@ uint32_t SimpleTab32(uint32_t x, uint32_t H[4][256]) {
 
 /**
  * @brief Double Tabulation
- * 
+ *    Simple tabulation is 3-independent, so we need a 3-unique function
  * @param x 
  *    
  * @param H 
@@ -45,7 +45,7 @@ uint32_t SimpleTab32(uint32_t x, uint32_t H[4][256]) {
  *    
  */
 uint32_t DoubleTab32(uint32_t x, uint32_t H[4][256]) {
-  /* k-unique function */
-  
-  /* k-independent function */
+  /* Simple tabulation function with 6 times more output than input characters */
+
+  /* Simple tabulation function */
 }
