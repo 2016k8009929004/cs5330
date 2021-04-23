@@ -2,8 +2,9 @@
 // Created by Yuhang Chen on 5/4/21.
 //
 #include "linear_probing.h"
-#include "simple.h"
 #include "table_generate.h"
+
+#include <limits.h>
 
 /**
  * @brief Init Probing Array
@@ -37,7 +38,7 @@ PROBING_ARRAY* Init(HASH f){
  * @return
  *    Location of element, -1 if not found
  */
-int Search(PROBING_ARRAY* a, uint32_t** table, int element){
+int Search(PROBING_ARRAY* a, uint32_t* table, int element){
     if(a->count == 0){
         printf("Search error!\nArray is empty\n");
         return -1;
@@ -65,7 +66,7 @@ int Search(PROBING_ARRAY* a, uint32_t** table, int element){
  * @param element
  *    The element we want to insert into the probing array a
  */
-void Insert(PROBING_ARRAY* a, uint32_t** table, int element){
+void Insert(PROBING_ARRAY* a, uint32_t* table, int element){
     if(a->count == SIZE){
         printf("Insert error.\nArray is full!\n");
         return;
@@ -89,7 +90,7 @@ void Insert(PROBING_ARRAY* a, uint32_t** table, int element){
  * @param element
  *    The element we want to delete from the probing array a
  */
-void Delete(PROBING_ARRAY* a, uint32_t** table, int element){
+void Delete(PROBING_ARRAY* a, uint32_t* table, int element){
     if(a->count == 0){
         printf("Delete error!\nArray is empty!\n");
         return;
@@ -115,8 +116,22 @@ void PrintArray(PROBING_ARRAY *a){
 }
 
 int main(){
-    uint32_t** table = (uint32_t **)table_generate(4*512*sizeof(uint32_t));
+#ifdef DOUBLE
+    uint32_t* table = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)UINT_MAX)*sizeof(uint32_t));
+#else
+    uint32_t* table = (uint32_t *)table_generate(4*256*sizeof(uint32_t));
+#endif
+
+#ifdef SIMPLE
     PROBING_ARRAY * probing_array = Init((HASH)SimpleTab32);
+#elif TWISTED
+    PROBING_ARRAY * probing_array = Init((HASH)TwistedTab32);
+#elif DOUBLE
+    PROBING_ARRAY * probing_array = Init((HASH)DoubleTab32);
+#else
+    PROBING_ARRAY * probing_array = NULL;
+    printf("ERROR\n");
+#endif
 
     double start = get_time();
     for(int i = 0; i < 100; i++){

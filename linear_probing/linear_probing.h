@@ -5,6 +5,18 @@
 #ifndef CS5330_LINEAR_PROBING_H
 #define CS5330_LINEAR_PROBING_H
 
+#ifdef SIMPLE
+#include "simple.h"
+#endif
+
+#ifdef TWISTED
+#include "twisted.h"
+#endif
+
+#ifdef DOUBLE
+#include "double.h"
+#endif
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -13,7 +25,7 @@
 
 #define SIZE 100000
 
-typedef uint32_t (*HASH)(uint32_t, uint32_t**);
+typedef uint32_t (*HASH)(uint32_t, uint32_t*);
 
 typedef struct probing_array {
     int* arr;
@@ -22,13 +34,13 @@ typedef struct probing_array {
 } PROBING_ARRAY;
 
 
-PROBING_ARRAY* Init(uint32_t (*f)(uint32_t, uint32_t**));
+PROBING_ARRAY* Init(HASH f);
 
-int Search(PROBING_ARRAY* a, uint32_t** table, int element);
+int Search(PROBING_ARRAY* a, uint32_t* table, int element);
 
-void Insert(PROBING_ARRAY* a, uint32_t** table, int element);
+void Insert(PROBING_ARRAY* a, uint32_t* table, int element);
 
-void Delete(PROBING_ARRAY* a, uint32_t** table, int element);
+void Delete(PROBING_ARRAY* a, uint32_t* table, int element);
 
 void PrintArray(PROBING_ARRAY *a);
 

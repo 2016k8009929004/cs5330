@@ -11,7 +11,7 @@
  * @return
  *    The generated Hash Table
  */
-char* table_generate(int size){
+char* table_generate(unsigned long long size){
     char* table = (char*)malloc(sizeof(char) * size);
     srand(time(NULL));
     for(int i = 0; i < size; i++){
