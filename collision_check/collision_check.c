@@ -23,11 +23,14 @@ double three_collision_check(HASH h, uint32_t* table){
     double total_pair = (double)SIZE*(SIZE-1)*(SIZE-2)/6;
     for(int i = 0; i < SIZE; i++){
         for(int j = i+1; j < SIZE; j++){
-            for(int k = j+1; k < SIZE; k++){
-                if((h(i, table) == h(j, table)) && (h(i, table) == h(k, table))) {
-                    count++;
+            if(h(i, table) == h(j, table)){
+                for(int k = j+1; k < SIZE; k++){
+                    if(h(i, table) == h(k, table)){
+                        count++;
+                    }
                 }
             }
+
         }
     }
     return count/total_pair;
@@ -58,6 +61,6 @@ int main(int argc, char* argv[]){
     double collision_rate = 0;
     collision_rate = two_collision_check(h, table);
     printf("Two collision rate=%f\n", collision_rate);
-    collision_rate = three_collision_check(h, table);
+//    collision_rate = three_collision_check(h, table);
     printf("Three collision rate=%f\n", collision_rate);
 }
