@@ -41,9 +41,9 @@ def execute(binary_path, result_file, first_para, second_para):
 application_names = ['collision_check', 'linear_probing', 'cuckoo_hashing']
 
 
-project_path = '/home/yuhang/Study/cs5330'
+project_path = '/home/yuhang/Work/cs5330'
 
-input_binary_path_format = project_path + '/{0}/{0}_{1}.out'
+input_binary_path_format = project_path + '/build/{0}/{0}_{1}.out'
 input_result_path_format = project_path + '/results/{0}'
 
 input_application_list = [
@@ -72,18 +72,18 @@ second_parameter_list = [
 
 for i, application in enumerate(application_names):
     for hash_function in hash_function_list:
-        for j in range(len(first_parameter_list)):
+        for j in range(len(first_parameter_list[i])):
             first_para = first_parameter_list[i][j]
             second_para = second_parameter_list[i][j]
             input_binary_path = input_binary_path_format.format(application, hash_function)
             input_result_path = input_result_path_format.format(application)
-            result_file_name = '{0}_{1}_{2}_{3}.res'.format(application, hash_function, first_para, second_para)
+            result_file_name = input_result_path + '/{0}_{1}_{2}_{3}.res'.format(application, hash_function, first_para, second_para)
 
             if not os.path.exists(os.path.dirname(input_result_path)):
                 os.makedirs(os.path.dirname(input_result_path))
 
-            print(' '.join((input_binary_path, first_para, second_para)))
+            print(' '.join((input_binary_path, str(first_para), str(second_para))))
 
-            execute(input_binary_path, input_result_path, first_para, second_para)
+            execute(input_binary_path, result_file_name, str(first_para), str(second_para))
 
             print('-------------------------------------------------------------------------------')
