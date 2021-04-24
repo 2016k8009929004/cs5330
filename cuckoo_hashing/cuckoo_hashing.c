@@ -3,8 +3,8 @@
 //
 
 #include "cuckoo_hashing.h"
-const int SIZE = 1000000;
-const double EPSILON = 0.1;
+int SIZE = 1000000;
+double EPSILON = 0.1;
 
 
 /**
@@ -53,21 +53,28 @@ int Insert(CUCKOO_TABLE * T, uint32_t* table1, uint32_t* table2, int element){
 }
 
 
-int main(){
-#ifdef DOUBLE
-    uint32_t* table1 = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)UINT_MAX)*sizeof(uint32_t));
-    uint32_t* table2 = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)UINT_MAX)*sizeof(uint32_t));
-#else
-    uint32_t* table1 = (uint32_t *)table_generate(4*256*sizeof(uint32_t));
-    uint32_t* table2 = (uint32_t *)table_generate(4*256*sizeof(uint32_t));
-#endif
-
+int main(int argc, char* argv[]){
+    if(argc >= 2){
+        SIZE = atoi(argv[1]);
+    }
+    if(argc >= 3){
+        EPSILON = atof(argv[2]);
+    }
+    else{
+        EPSILON = 0.05;
+    }
 #ifdef SIMPLE
     CUCKOO_TABLE * cuckoo_table = Init((HASH)SimpleTab32);
+    uint32_t* table1 = (uint32_t *)table_generate(4*256*sizeof(uint32_t));
+    uint32_t* table2 = (uint32_t *)table_generate(4*256*sizeof(uint32_t));
 #elif TWISTED
     CUCKOO_TABLE * cuckoo_table = Init((HASH)TwistedTab32);
+    uint32_t* table1 = (uint32_t *)table_generate(4*256*sizeof(uint64_t));
+    uint32_t* table2 = (uint32_t *)table_generate(4*256*sizeof(uint64_t));
 #elif DOUBLE
     CUCKOO_TABLE * cuckoo_table = Init((HASH)DoubleTab32);
+    uint32_t* table1 = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)UINT_MAX)*sizeof(uint32_t));
+    uint32_t* table2 = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)UINT_MAX)*sizeof(uint32_t));
 #else
     CUCKOO_TABLE * cuckoo_table = NULL;
     printf("ERROR\n");
@@ -76,6 +83,8 @@ int main(){
     double count = 0;
     int pos = 0;
     const int array_size = SIZE*(1 + EPSILON);
+
+    printf("Table Size = %d, Insert Array Size = %d\n", SIZE, array_size);
 
     double start = get_time();
     for(int i = 0; i < array_size; i++){

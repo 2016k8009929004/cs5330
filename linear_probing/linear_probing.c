@@ -3,6 +3,8 @@
 //
 #include "linear_probing.h"
 
+int SIZE = 1000000;
+int array_size = 100000;
 int step_count = 0;
 
 /**
@@ -118,36 +120,50 @@ void PrintArray(PROBING_ARRAY *a){
     printf("\n");
 }
 
-int main(){
-#ifdef DOUBLE
-    uint32_t* table = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)UINT_MAX)*sizeof(uint32_t));
-#else
-    uint32_t* table = (uint32_t *)table_generate(4*256*sizeof(uint32_t));
-#endif
+int main(int argc, char* argv[]){
+    if(argc >= 2){
+        SIZE = atoi(argv[1]);
+    }
+    if(argc >= 3){
+        array_size = atoi(argv[2]);
+    }
+    else{
+        array_size = SIZE/10;
+    }
 
 #ifdef SIMPLE
     PROBING_ARRAY * probing_array = Init((HASH)SimpleTab32);
+    uint32_t* table = (uint32_t *)table_generate(4*256*sizeof(uint32_t));
 #elif TWISTED
     PROBING_ARRAY * probing_array = Init((HASH)TwistedTab32);
+    uint32_t* table = (uint32_t *)table_generate(4*256*sizeof(uint64_t));
 #elif DOUBLE
     PROBING_ARRAY * probing_array = Init((HASH)DoubleTab32);
+    uint32_t* table = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)UINT_MAX)*sizeof(uint32_t));
 #else
     PROBING_ARRAY * probing_array = NULL;
+    uint32_t* table = NULL;
     printf("ERROR\n");
 #endif
 
+    printf("Probing Array Size = %d, Insert Array Size = %d\n", SIZE, array_size);
+
     double count = 0;
-    const int array_size = SIZE/10;
+    uint32_t* array_table = (uint32_t*)table_generate(array_size*sizeof(uint32_t));
+    for(int i = 0; i < array_size; i++){
+        array_table[i] = array_table[i] % (1<<31);
+//        array_table[i] = i;
+    }
 
     double start = get_time();
     for(int i = 0; i < array_size; i++){
-        probing_array->hash_function(i, table);
+        probing_array->hash_function(array_table[i], table);
     }
     printf("Avg hash time is %f ns.\n", (get_time() - start)*10e9/array_size);
 
     start = get_time();
     for(int i = 0; i < array_size; i++){
-        Insert(probing_array, table, i);
+        Insert(probing_array, table, array_table[i]);
         count += step_count;
     }
     assert(probing_array->count == array_size);
@@ -158,7 +174,7 @@ int main(){
     count = 0;
     start = get_time();
     for(int i = 0; i < array_size; i++){
-        Delete(probing_array, table, i);
+        Delete(probing_array, table, array_table[i]);
         count += step_count;
     }
     assert(probing_array->count == 0);

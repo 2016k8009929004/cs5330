@@ -26,7 +26,6 @@
 
 #include "table_generate.h"
 
-#define SIZE 1000000
 
 typedef uint32_t (*HASH)(uint32_t, uint32_t*);
 
