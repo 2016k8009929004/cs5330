@@ -1,4 +1,4 @@
-PROJECT(Linear_probing)
+PROJECT(linear_probing)
 
 ADD_EXECUTABLE(linear_probing_simple.out linear_probing.c)
 

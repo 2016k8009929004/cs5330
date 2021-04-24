@@ -1,9 +1,9 @@
 //
-// Created by Yuhang Chen on 5/4/21.
+// Created by Yuhang Chen on 24/4/21.
 //
 
-#ifndef CS5330_LINEAR_PROBING_H
-#define CS5330_LINEAR_PROBING_H
+#ifndef CS5330_CUCKOO_HASHING_H
+#define CS5330_CUCKOO_HASHING_H
 
 #ifdef SIMPLE
 #include "simple.h"
@@ -26,26 +26,17 @@
 
 #include "table_generate.h"
 
-#define SIZE 1000000
 
 typedef uint32_t (*HASH)(uint32_t, uint32_t*);
 
-typedef struct probing_array {
-    int* arr;
-    int count;
+typedef struct cuckoo_table{
+    int* arr1;
+    int* arr2;
     HASH hash_function;
-} PROBING_ARRAY;
+} CUCKOO_TABLE;
 
-
-PROBING_ARRAY* Init(HASH f);
-
-int Search(PROBING_ARRAY* a, uint32_t* table, int element);
-
-void Insert(PROBING_ARRAY* a, uint32_t* table, int element);
-
-void Delete(PROBING_ARRAY* a, uint32_t* table, int element);
-
-void PrintArray(PROBING_ARRAY *a);
+CUCKOO_TABLE* Init(HASH f);
+int Insert(CUCKOO_TABLE * T, uint32_t* table1, uint32_t* table2, int element);
 
 double get_time()
 {
@@ -54,4 +45,4 @@ double get_time()
     return now.tv_sec + now.tv_nsec*1e-9;
 }
 
-#endif //CS5330_LINEAR_PROBING_H
+#endif //CS5330_CUCKOO_HASHING_H
