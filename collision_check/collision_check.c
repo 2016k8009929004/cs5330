@@ -49,7 +49,7 @@ int main(int argc, char* argv[]){
     uint32_t* table = (uint32_t *)table_generate(4*256*sizeof(uint64_t));
 #elif DOUBLE
     HASH h = (HASH)DoubleTab32;
-    uint32_t* table = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)UINT_MAX)*sizeof(uint32_t));
+    uint32_t* table = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)(1<<16))*sizeof(uint32_t));
 #else
     uint32_t* table = NULL;
     HASH h = NULL;

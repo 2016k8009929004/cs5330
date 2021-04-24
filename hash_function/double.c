@@ -45,12 +45,12 @@ uint32_t * SimpleTab_f(uint32_t x, uint32_t H[4*256*32]) {
  * @return
  *    Hash value of key x
  */
-uint32_t SimpleTab_r(uint32_t * x, uint32_t H[32 * UINT_MAX]) {
+uint32_t SimpleTab_r(uint32_t * x, uint32_t H[32 * (1<<16)]) {
     uint32_t h = 0;
-    uint8_t c;
+    uint16_t c;
     for (int i = 0; i < 32; i++) {
         c = x[i];
-        h ^= H[i*(unsigned long long)UINT_MAX + c];
+        h ^= H[i*(unsigned long long)(1<<16)+ c];
     }
     return h;
 }
