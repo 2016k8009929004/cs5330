@@ -73,8 +73,8 @@ int main(int argc, char* argv[]){
     uint32_t* table2 = (uint32_t *)table_generate(4*256*sizeof(uint64_t));
 #elif DOUBLE
     CUCKOO_TABLE * cuckoo_table = Init((HASH)DoubleTab32);
-    uint32_t* table1 = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)(1<<16))*sizeof(uint32_t));
-    uint32_t* table2 = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)(1<<16))*sizeof(uint32_t));
+    uint32_t* table1 = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)(1<<28))*sizeof(uint32_t));
+    uint32_t* table2 = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)(1<<28))*sizeof(uint32_t));
 #else
     CUCKOO_TABLE * cuckoo_table = NULL;
     printf("ERROR\n");

@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <time.h>
@@ -27,8 +28,7 @@
 
 typedef uint32_t (*HASH)(uint32_t, uint32_t*);
 
-double two_collision_check(HASH h, uint32_t* table);
-double three_collision_check(HASH h, uint32_t* table);
+//double collision_check(int i, int* count_table);
 
 double get_time()
 {

@@ -3,42 +3,11 @@
 //
 
 #include "collision_check.h"
-int SIZE = 1000000;
-
-double two_collision_check(HASH h, uint32_t* table){
-    double count = 0;
-    double total_pair = (double)SIZE*(SIZE-1)/2;
-    for(int i = 0; i < SIZE; i++){
-        for(int j = i+1; j < SIZE; j++){
-            if(h(i, table) == h(j, table)){
-                count++;
-            }
-        }
-    }
-    return count/total_pair;
-}
-
-double three_collision_check(HASH h, uint32_t* table){
-    double count = 0;
-    double total_pair = (double)SIZE*(SIZE-1)*(SIZE-2)/6;
-    for(int i = 0; i < SIZE; i++){
-        for(int j = i+1; j < SIZE; j++){
-            if(h(i, table) == h(j, table)){
-                for(int k = j+1; k < SIZE; k++){
-                    if(h(i, table) == h(k, table)){
-                        count++;
-                    }
-                }
-            }
-
-        }
-    }
-    return count/total_pair;
-}
+long long int SIZE = 1000000;
 
 int main(int argc, char* argv[]){
     if(argc >= 2){
-        SIZE = atoi(argv[1]);
+        SIZE = atoll(argv[1]);
     }
 
 #ifdef SIMPLE
@@ -49,7 +18,7 @@ int main(int argc, char* argv[]){
     uint32_t* table = (uint32_t *)table_generate(4*256*sizeof(uint64_t));
 #elif DOUBLE
     HASH h = (HASH)DoubleTab32;
-    uint32_t* table = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)(1<<16))*sizeof(uint32_t));
+    uint32_t* table = (uint32_t *)table_generate((4*256*32 + 32*(unsigned long long)(1<<28))*sizeof(uint32_t));
 #else
     uint32_t* table = NULL;
     HASH h = NULL;
@@ -58,9 +27,34 @@ int main(int argc, char* argv[]){
 
     printf("Check Array Size = %d\n", SIZE);
 
-    double collision_rate = 0;
-    collision_rate = two_collision_check(h, table);
-    printf("Two collision rate=%f\n", collision_rate);
-//    collision_rate = three_collision_check(h, table);
-    printf("Three collision rate=%f\n", collision_rate);
+    bool* count_table1 = (bool*)malloc(UINT_MAX * sizeof(bool));
+    bool* count_table2 = (bool*)malloc(UINT_MAX * sizeof(bool));
+    double two_collision_count = 0;
+    double three_collision_count = 0;
+    for(uint32_t i = 0; i < UINT_MAX; i++){
+        count_table1[i] = 0;
+        count_table2[i] = 0;
+    }
+    printf("Finish Initialization.\n");
+    uint32_t pos;
+    for(long long int i = 0; i < SIZE; i++){
+        pos = h(i, table);
+        if(count_table1[pos] == 0){
+            count_table1[pos] = 1;
+        }
+        else{
+            two_collision_count++;
+            if(count_table2[pos] == 0){
+                count_table2[pos] = 1;
+            }
+            else{
+                three_collision_count++;
+            }
+        }
+    }
+
+    printf("Two collision rate=%f\n", two_collision_count/(SIZE));
+    printf("Three collision rate=%f\n", three_collision_count/(SIZE*SIZE));
+    free(count_table1);
+    free(count_table2);
 }
