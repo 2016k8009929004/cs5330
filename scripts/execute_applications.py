@@ -47,8 +47,8 @@ input_binary_path_format = project_path + '/build/{0}/{0}_{1}.out'
 input_result_path_format = project_path + '/results/{0}'
 
 input_application_list = [
-    0,  # collision_check
-    1,  # linear_probing
+    # 0,  # collision_check
+    # 1,  # linear_probing
     2,  # cuckoo_hashing
 ]
 
@@ -59,18 +59,20 @@ hash_function_list = [
 ]
 
 first_parameter_list = [
-    [10**3, 10**4, 10**5, 10**6, 10**7, 10**8],
-    [10**4, 10**5, 10**6, 10**7, 10**8],
-    [10**4, 10**5, 10**6, 10**7, 10**8],
+    [10**5, 10**6, 10**7, 10**8],
+    [10**5, 10**6, 10**7, 10**8],
+    [10**5, 10**6, 10**7, 10**8],
 ]
 
 second_parameter_list = [
-    [0, 0, 0, 0, 0, 0],  #
-    [10**3, 10**4, 10**5, 10**6, 10**7],
-    [0.01, 0.01, 0.01, 0.01, 0.01, 0.01],
+    [0, 0, 0, 0],  #
+    [10**4, 10**5, 10**6, 10**7],
+    # [0.01, 0.01, 0.01, 0.01, 0.01],
+    [0.005, 0.005, 0.005, 0.005, 0.005],
 ]
 
-for i, application in enumerate(application_names):
+for i in input_application_list:
+    application = application_names[i]
     for hash_function in hash_function_list:
         for j in range(len(first_parameter_list[i])):
             first_para = first_parameter_list[i][j]
