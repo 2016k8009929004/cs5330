@@ -12,10 +12,10 @@
  *    The generated Hash Table
  */
 char* table_generate(unsigned long long size){
-    char* table = (char*)calloc(size, sizeof(char));
+    int* table = (int*)calloc(size, sizeof(char));
     srand(time(NULL));
-    for(int i = 0; i < size; i++){
-        table[i] = rand() % (1<<8);
+    for(unsigned long long i = 0; i < size/sizeof(int); i++){
+        table[i] = rand();
     }
     return table;
 }
