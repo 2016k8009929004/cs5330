@@ -95,7 +95,7 @@ print(avg_insert_time)
 print(error_rate)
 
 file_path = 'figures/cuckoo_hashing_avg_insert_time_0.01.pdf'
-draw_lines(avg_insert_time, file_path, 10, 10**5, is_log=True, flag = 0)
+draw_lines(avg_insert_time, file_path, 10, 10**5, is_log=True, flag=0)
 file_path = 'figures/cuckoo_hashing_error_rate_0.01.pdf'
-draw_lines(error_rate, file_path, 10**(-2), 10**(-0), is_log=True, flag = 1)
+draw_lines(error_rate, file_path, 10**(-2), 10**(-0), is_log=True, flag=1)
 # '''
